@@ -1,0 +1,138 @@
+server:
+  port: 20235
+  servlet:
+    context-path: /api
+
+spring:
+  profiles:
+#    设置工作环境 dev test formal
+    active: dev
+
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  servlet:
+    multipart:
+      # 上传一个文件最大值,默认1Mb
+      max-file-size: 10MB
+      # 上传多个文件最大值,50Mb,默认10Mb
+      max-request-size: 100MB
+  aop:
+    proxy-target-class: true
+  application:
+    name: quwen-main
+
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/quwen?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username:
+      password:
+
+      #初始化时建立物理连接的个数
+      initial-size: 3
+      #最大连接池数量
+      max-active: 100
+      #最小连接池数量
+      min-idle: 1
+      #获取连接时最大等待时间，单位毫秒
+      max-wait: 60000
+      #PSCache对支持游标的数据库性能提升巨大，比如说oracle。在mysql下建议关闭
+      pool-prepared-statements: false
+      #指定每个连接上PSCache的大小
+      max-pool-prepared-statement-per-connection-size: 20
+      #statement池能够同时分配的打开的statements的最大数量。要启用PSCache，必须配置大于0
+      max-open-prepared-statements: 0
+      #用来检测连接是否有效的sql，要求是一个查询语句
+      validation-query: SELECT 1 FROM test
+      validation-query-timeout: 300000
+      #申请连接时执行validationQuery检测连接是否有效
+      test-on-borrow: true
+      #归还连接时执行validationQuery检测连接是否有效
+      test-on-return: true
+      #申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效
+      test-while-idle: true
+      ## 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      ## 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+      max-evictable-idle-time-millis: 10000000
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'stat'监控统计用,'wall'用于防火墙,'log4j'日志用的
+      filters: stat,wall
+      #监控配置
+      # WebStatFilter配置，说明请参考Druid Wiki，配置_配置WebStatFilter
+      web-stat-filter.enabled: true
+      web-stat-filter.url-pattern: /*
+      web-stat-filter.exclusions: "*.js,*.gif,*.jpg,*.bmp,*.png,*.css,*.ico,/druid/*"
+      # StatViewServlet配置，说明请参考Druid Wiki，配置_StatViewServlet配置
+      stat-view-servlet.enabled: true
+      stat-view-servlet.url-pattern: /druid/*
+      stat-view-servlet.reset-enable: false
+      stat-view-servlet.login-username: qwe
+      stat-view-servlet.login-password: asd
+      stat-view-servlet.allow: 192.168.1.101,127.0.0.1
+      stat-view-servlet.deny: 192.168.3.12
+  mvc:
+    pathmatch:
+#      Swagger2匹配策略
+      matching-strategy: ant_path_matcher
+
+mybatis-plus:
+  configuration:
+    #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      logic-delete-field: del_flag
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+#      雪花算法
+      id-type: assign_id
+
+logging:
+  file:
+    name: quwenLog.log
+  level:
+    com.quwen: debug
+
+jwt:
+#  token前缀
+  prefix: Bearer_
+#  accessToken密钥
+  accessTokenSecret:
+#  refreshToken密钥
+  refreshTokenSecret:
+#  accessToken标准时长 两小时 2*60*60*1000
+  accessTokenStandardExpirationTime: 7200000
+#  refreshToken标准时长 两个月 2*30*24*60*60*1000
+  refreshTokenStandardExpirationTime: 5184000000
+#  accessToken波动时长 三十分钟 30*60*1000
+  accessTokenWaveExpirationTime: 1800000
+#  refreshToken波动时长 一天 24*60*60*1000
+  refreshTokenWaveExpirationTime: 86400000
+
+inviteSystem:
+  #  邀请激励信息邀请单个用户的奖励
+  oneReward: 10.00
+
+#微信接口配置
+wechat:
+  #小程序appid
+  appid:
+  #小程序appSecret
+  appSecret:
+  #扫码跳转页面
+  loginPage: login
+  #小程序版本。正式版为 "release"，体验版为 "trial"，开发版为 "develop"
+  env: develop
+  #默认430，二维码的宽度，单位 px，最小 280px，最大 1280px
+  width: 280
+
+#讯飞接口配置
+#xunfei:
+#  appid:
+#  apiSecret:
+#  apiKey:
+#  VCN: xiaoyan
