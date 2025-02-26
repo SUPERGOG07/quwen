@@ -130,9 +130,9 @@ wechat:
   #默认430，二维码的宽度，单位 px，最小 280px，最大 1280px
   width: 280
 
-#讯飞接口配置
-#xunfei:
-#  appid:
-#  apiSecret:
-#  apiKey:
-#  VCN: xiaoyan
+讯飞接口配置
+xunfei:
+  appid:
+  apiSecret:
+  apiKey:
+  VCN: xiaoyan
